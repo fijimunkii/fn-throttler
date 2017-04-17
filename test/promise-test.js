@@ -5,15 +5,20 @@ var assert = require('assert');
 
 var db;
 
-describe('Retrieve OK to go ahead', function() {
+before(function(done) {
+  mongo.connect('mongodb://localhost:27017/fn-throttler-test')
+    .then(d => {
+      db = d;
+      done();
+    });
+});
 
-  before(function(done) {
-    mongo.connect('mongodb://localhost:27017/fn-throttler-test')
-      .then(d => {
-        db = d;
-        done();
-      });
-  });
+after(function(done) {
+  db.collection('test').remove({})
+    .then(() => done());
+});
+
+describe('Retrieve OK to go ahead', function() {
 
   it('should get initial ok', function() {
     var th = Throttler({
@@ -34,7 +39,7 @@ describe('Retrieve OK to go ahead', function() {
     });
     th.getToken();
     th.getToken()
-      .then(console.log, e => assert.fail(e, 'WAIT'));
+      .then(assert.ifError('should have thrown'), e => assert.equal(e, 'WAIT'));
   });
 
   it('spreads requests across time using seconds', function() {
@@ -83,13 +88,5 @@ describe('Retrieve OK to go ahead', function() {
       .then(d => d.forEach((x, i) => i && assert(Math.abs(d[i][1] - d[i - 1][1]) >= 500)));
   });
 
-  after(function(done) {
-    db.collection('test').remove({})
-      .then(() => done());
-  });
-
-});
-
-describe('throttler', function() {
-
+  
 });
