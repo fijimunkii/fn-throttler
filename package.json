@@ -4,7 +4,7 @@
   "description": "Throttling for promises (or functions) using MongoDB for multicore and multicluster synchronization",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --recursive",
+    "test": "node ./node_modules/tap/bin/run test",
     "start": "debug=* nodemon -e html,js,css ./index.js --ignore 'bower_components' --ignore 'node_modules'"
   },
   "repository": {
@@ -12,7 +12,11 @@
     "url": "git+https://github.com/artikas/fn-throttler.git"
   },
   "keywords": [
-    "throttler", "rate", "limiting", "throttling", "limiter"
+    "throttler",
+    "rate",
+    "limiting",
+    "throttling",
+    "limiter"
   ],
   "author": "artikas",
   "license": "MIT",
@@ -25,7 +29,8 @@
     "mongodb": "^2.1.11"
   },
   "devDependencies": {
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "tap": "^10.3.2"
   },
   "engine": "node 5.5.0"
 }
